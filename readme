@@ -1,0 +1,84 @@
+require "stripe"
+Stripe.api_key = "sk_test_HA0qHrS3xBnkAQMlJRzVTde0"
+
+
+You can set a default key, or you can always pass a key directly to an object's constructor. Authentication is transparently handled for you in subsequent method calls.
+One of your test API keys has been filled into all the examples on the page, so you can test out any example right away.
+
+begin
+  # Use Stripe's bindings...
+rescue Stripe::CardError => e
+  # Since it's a decline, Stripe::CardError will be caught
+  body = e.json_body
+  err  = body[:error]
+
+  puts "Status is: #{e.http_status}"
+  puts "Type is: #{err[:type]}"
+  puts "Code is: #{err[:code]}"
+  # param is '' in this case
+  puts "Param is: #{err[:param]}"
+  puts "Message is: #{err[:message]}"
+rescue Stripe::InvalidRequestError => e
+  # Invalid parameters were supplied to Stripe's API
+rescue Stripe::AuthenticationError => e
+  # Authentication with Stripe's API failed
+  # (maybe you changed API keys recently)
+rescue Stripe::APIConnectionError => e
+  # Network communication with Stripe failed
+rescue Stripe::StripeError => e
+  # Display a very generic error to the user, and maybe send
+  # yourself an email
+rescue => e
+  # Something else happened, completely unrelated to Stripe
+end
+
+
+Example Request 
+require "stripe"
+Stripe.api_key = "sk_test_HA0qHrS3xBnkAQMlJRzVTde0"
+
+Stripe::Charge.retrieve(:id => "ch_2IJAdIJUMqiCVJ", :expand => ['customer'])
+
+
+"id": "ch_2IJAdIJUMqiCVJ",
+  "object": "charge",
+  "created": 1375211592,
+  "livemode": false,
+  "paid": true,
+  "amount": 100,
+  "currency": "usd",
+  "refunded": false,
+  "fee": 0,
+  "fee_details": [
+
+  ],
+  "card": {
+    "object": "card",
+    "last4": "4242",
+    "type": "Visa",
+    "exp_month": 8,
+    "exp_year": 2014,
+    "fingerprint": "khyhAHzaBY3l8pPf",
+    "customer": null,
+    "country": "US",
+    "name": null,
+    "address_line1": null,
+    "address_line2": null,
+    "address_city": null,
+    "address_state": null,
+    "address_zip": null,
+    "address_country": null,
+    "cvc_check": null,
+    "address_line1_check": null,
+    "address_zip_check": null
+  },
+  "captured": true,
+  "failure_message": null,
+  "failure_code": null,
+  "amount_refunded": 0,
+  "customer": null,
+  "invoice": null,
+  "description": "My First Test Charge (created for API docs)",
+  "dispute": null
+}
+
