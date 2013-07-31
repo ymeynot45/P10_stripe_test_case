@@ -1,3 +1,11 @@
+function Player(name) {
+  this.name = name;
+}
+
+function Game() {
+  this.winner = "";
+}
+
 $(document).ready(function(){
     var player1 = new Player($('#player1').text());
     var player2 = new Player($('#player2').text());
@@ -32,53 +40,18 @@ $(document).ready(function(){
       });
     }
   });
+  
+  jQuery(function($) {
+    $('#payment-form').submit(function(event) {
+      var $form = $(this);
+
+      // Disable the submit button to prevent repeated clicks
+      $form.find('button').prop('disabled', true);
+
+      Stripe.createToken($form, stripeResponseHandler);
+
+      // Prevent the form from submitting with the default action
+      return false;
+    });
+  });
 });
-
-
-
-
-
-function Player(name) {
-  this.name = name;
-}
-
-function Game() {
-  this.winner = "";
-}
-
-
-
-// function Player () {
-//   this.getMethods = function(properties, scope)
-//   {
-//     var $this = scope;
-//     //store classs scope into a var name $this
-
-//     //iterate through the properties of this object
-//     for (var i in properties)
-//     {
-//       (function(i)
-//       {
-//         // dyanm create an accessor method
-//         $this ["get" + i ] = function()
-//         {
-//           return properties[i];
-//         };
-
-//         //dynamically create a mutuation method that parses for an integer 
-//         // Ensures that it is positive
-//         $this["set" + i ] = function(val)
-//         {
-//           if(isNan(val))
-//           {
-//             properties[i] = val;
-//           }
-//           else
-//           {
-//             properties[i] = Math.abs(val);
-//           }
-//         };
-//       }) (i);
-//     }
-//   };
-// }

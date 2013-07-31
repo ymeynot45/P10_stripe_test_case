@@ -23,6 +23,12 @@ get '/results/:game_id' do
   erb :results
 end
 
+get '/create' do
+
+
+  erb :create
+  end
+
 
 post '/create' do
   User.create(params[:user])
