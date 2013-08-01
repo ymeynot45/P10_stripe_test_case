@@ -10,26 +10,28 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130610162819) do
+ActiveRecord::Schema.define(:version => 20130731165538) do
 
   create_table "games", :force => true do |t|
-    t.integer  "winner_id"
-    t.integer  "loser_id"
-    t.float    "win_time"
-    t.string   "url"
+    t.string   "winner"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
 
-  create_table "players", :force => true do |t|
-    t.string   "initials"
+  create_table "records", :force => true do |t|
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
 
-  create_table "races", :force => true do |t|
-    t.integer  "game_id"
-    t.integer  "player_id"
+  create_table "subscriptions", :force => true do |t|
+    t.string   "stripe_customer_token"
+    t.datetime "created_at",            :null => false
+    t.datetime "updated_at",            :null => false
+  end
+
+  create_table "users", :force => true do |t|
+    t.string   "email"
+    t.integer  "balance"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end

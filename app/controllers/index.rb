@@ -3,13 +3,27 @@ get '/' do
 end
 
 post '/' do
-  @player1 = User.find_by_name(params[:user][:user_1])
-  @player2 = User.find_by_name(params[:user][:user_2])
+  @player1 = User.find_by_email(params[:user][:user_1])
+  @player2 = User.find_by_email(params[:user][:user_2])
   if @player1 && @player2
-    erb :board
+
+    if @player1.balance < 500
+      @error = "#{@player1.email} doesn't have enough money in their account."
+    end
+
+    if @player2.balance < 500
+      @error = "#{@player2.email} doesn't have enough money in their account."
+    end
+
   else
+    @error = "If you don't have an account you need to create one."
+  end
+
+  if @error
     erb :index
-  end  
+  else
+    erb :board
+  end
 end
 
 post '/winner' do
@@ -35,21 +49,29 @@ end
 
 post '/charge' do
   # Amount in cents
-  @amount = 500
 
-  customer = Stripe::Customer.create(
-    :email => 'customer@example.com',
-    :card  => params[:stripeToken]
-  )
+  @user = User.find_or_create_by_email(params[:user][:email])
 
-  charge = Stripe::Charge.create(
-    :amount      => @amount,
-    :description => 'Sinatra Charge',
-    :currency    => 'usd',
-    :customer    => customer.id
-  )
+  if @user
+    @amount = (params[:user][:cents].to_i * 100)
 
-  redirect "/"
+    customer = Stripe::Customer.create(
+      :email => params[:user][:email],
+      :card  => params[:stripeToken]
+    )
+
+    charge = Stripe::Charge.create(
+      :amount      => @amount,
+      :description => 'JS Racer',
+      :currency    => 'usd',
+      :customer    => customer.id
+    )
+    @user.balance += @amount
+    redirect  '/'
+  else
+    @error = "I could not process your request."
+  erb :stripe_form
+  end
 end
 
 

@@ -41,6 +41,14 @@ $(document).ready(function(){
     }
   });
   
+
+// -----------------------------------------
+
+
+
+
+
+
   jQuery(function($) {
     $('#payment-form').submit(function(event) {
       var $form = $(this);
