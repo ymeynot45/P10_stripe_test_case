@@ -1,5 +1,5 @@
-function Player(name) {
-  this.name = name;
+function Player(email) {
+  this.email = email;
 }
 
 function Game() {
@@ -9,7 +9,6 @@ function Game() {
 $(document).ready(function(){
     var player1 = new Player($('#player1').text());
     var player2 = new Player($('#player2').text());
-    debugger;
   $(document).bind('keyup', function(keystroke){
     
     var current_position_1 = $("#player1_strip > .active");
@@ -27,14 +26,15 @@ $(document).ready(function(){
     if ($('#player1_strip td:last-child').attr('class') == "active"){
       $(document).unbind('keyup');
 
-      $.post(url, {"winner": player1.name}, function(response) {
+      $.post(url, {"winner": player1.email}, function(response) {
         var new_body = $(response).filter('#result-container');
         $(document).find('#container').html(new_body);
       });
     }
     else if ($('#player2_strip td:last-child').attr('class') == "active"){
       $(document).unbind('keyup');
-      $.post(url, {"winner": player2.name}, function(response) {
+
+      $.post(url, {"winner": player2.email}, function(response) {
         var new_body = $(response).filter('#result-container');
         $(document).find('#container').html(new_body);
       });
@@ -43,11 +43,6 @@ $(document).ready(function(){
   
 
 // -----------------------------------------
-
-
-
-
-
 
   jQuery(function($) {
     $('#payment-form').submit(function(event) {
@@ -64,8 +59,9 @@ $(document).ready(function(){
   });
 });
 
-coffee script to convert
 
+
+// --------------------------------------
 var subscription;
 
 subscription.setupForm();
@@ -88,7 +84,7 @@ subscription = {
       cvc: $('#card_code').val(),
       expMonth: $('#card_month').val(),
       expYear: $('#card_year').val()
-      Stripe.createToken(card, amount, subscription.handleStripeResponse) //??? unsure about this one.
+      // Stripe.createToken(card, amount, subscription.handleStripeResponse) //??? unsure about this one.
     };
   }
 });

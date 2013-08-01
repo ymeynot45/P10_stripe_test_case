@@ -26,10 +26,6 @@ post '/' do
   end
 end
 
-post '/winner' do
-  @game= Game.create(winner: params[:winner])
-  redirect to "/results/#{@game.id}"
-end
 
 get '/results/:game_id' do
   @game = Game.find(params[:game_id])
@@ -37,22 +33,12 @@ get '/results/:game_id' do
   erb :results
 end
 
-get '/create' do
-  erb :stripe_form
-end
-
-post '/create' do
-  User.create(params[:user])
-
-  redirect to '/'
-end
-
 post '/charge' do
-  # Amount in cents
 
   @user = User.find_or_create_by_email(params[:user][:email])
 
   if @user
+    # Amount in cents
     @amount = (params[:user][:cents].to_i * 100)
 
     customer = Stripe::Customer.create(
@@ -66,19 +52,53 @@ post '/charge' do
       :currency    => 'usd',
       :customer    => customer.id
     )
-    @user.balance += @amount
+
+    @amount += @user.balance 
+    User.update(@user.id, :balance => @amount)
+    
     redirect  '/'
   else
     @error = "I could not process your request."
-  erb :stripe_form
+    erb :stripe_form
   end
 end
-
-
 
 error Stripe::CardError do
   env['sinatra.error'].message
 end
+
+post '/winner' do
+  @game= Game.create(winner: params[:winner])
+  redirect to "/results/#{@game.id}"
+end
+
+get '/create' do
+  erb :stripe_form
+end
+
+post '/create' do
+  User.create(params[:user])
+
+  redirect to '/'
+
+end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   # the form that matches the above post.
  # <form action="/charge" method="post">
