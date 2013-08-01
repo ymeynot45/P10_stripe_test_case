@@ -24,17 +24,50 @@ get '/results/:game_id' do
 end
 
 get '/create' do
-
-
-  erb :create
-  end
-
+  erb :stripe_form
+end
 
 post '/create' do
   User.create(params[:user])
 
   redirect to '/'
 end
+
+post '/charge' do
+  # Amount in cents
+  @amount = 500
+
+  customer = Stripe::Customer.create(
+    :email => 'customer@example.com',
+    :card  => params[:stripeToken]
+  )
+
+  charge = Stripe::Charge.create(
+    :amount      => @amount,
+    :description => 'Sinatra Charge',
+    :currency    => 'usd',
+    :customer    => customer.id
+  )
+
+  redirect "/"
+end
+
+
+
+error Stripe::CardError do
+  env['sinatra.error'].message
+end
+
+  # the form that matches the above post.
+ # <form action="/charge" method="post">
+ #    <article>
+ #      <label class="amount">
+ #        <span>Amount: $5.00</span>
+ #      </label>
+ #    </article>
+
+
+
 
 # require "stripe"
 # Stripe.api_key = "sk_test_mkGsLqEW6SLnZa487HYfJVLf"

@@ -55,3 +55,50 @@ $(document).ready(function(){
     });
   });
 });
+
+coffee script to convert
+
+var subscription;
+
+subscription.setupForm();
+
+subscription = {
+  setupForm: function() {
+    return $('#new_subscription').submit(function() {
+      $('input[type=submit]').attr('disabled', true);
+      subscription.processCard();
+      return false;
+    });
+  }
+};
+
+({
+  processCard: function() {
+    var card;
+    return card = {
+      number: $('#card_number').val(),
+      cvc: $('#card_code').val(),
+      expMonth: $('#card_month').val(),
+      expYear: $('#card_year').val()
+      Stripe.createToken(card, amount, subscription.handleStripeResponse) //??? unsure about this one.
+    };
+  }
+});
+
+
+
+
+({
+  handleStripeResponse: function(status, response) {
+    if (status === 200) {
+      alert(response.id);
+      $('#subscription_stripe_card_token').val(response.id);
+      $('#new_subscription')[0].submit();
+    } else {
+      alert(response.error.message);
+      $('stripe_error').text(response.error.message);
+      $('input[type=submit').attr('disabled', false);
+    }
+    return end;
+  }
+});

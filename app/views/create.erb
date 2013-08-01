@@ -29,7 +29,10 @@
 
 
 <div class="container">
-  <form action="" method="POST" id="payment-form">
+  <div id="stripe_error">
+    <noscript> JavaScript is not enabled and is required for this form. Enable it in your browser settings.</noscript>
+  </div>
+  <form action="/charge" method="POST" id="payment-form">
   <span class="payment-errors"></span>
 
   <div class="form-row">
@@ -54,6 +57,10 @@
     <span> / </span>
     <input type="text" size="4" data-stripe="exp-year"/>
   </div>
+
+  <input type="hidden" value="membership" />
+
+  <input type="hidden" value="stripe_card_token" />
 
   <button type="submit">Submit Payment</button>
   </form>
