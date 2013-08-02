@@ -29,32 +29,44 @@ post '/' do
     User.update(@player2.id, :balance => (@player2.balance - @bet))
     the_pot += @bet
     house_take = the_pot * 0.1
-    User.update(1, :balance => house_take)
+    the_house = User.find_by_id(1)
+    User.update(1, :balance => (house_take + the_house.balance))
     @the_pot = (the_pot - house_take)
     erb :board
   end
 end
 
 
-get '/results/:game_id' do
-  @game = Game.find(params[:game_id])
-  @winner = @game.winner
-  erb :results
-end
-
-get '/create' do
+get '/funds' do
   erb :stripe_form
 end
 
-post '/create' do
-  User.create(params[:user])
+get '/results/:game_id' do
+  @game = Game.find(params[:game_id])
+  @results = "#{@game.winner} with a pot of $#{@game.the_pot} USD!"
+  erb :results
+end
 
-  redirect to '/'
 
+get '/profile/:id' do
+  @user = User.find_by_id(params[:id])
+  @email = @user.email
+  @balance = ((@user.balance) /100)
+  erb :profile
+end
+
+post '/profile' do
+  @user = User.find_by_email(params[:user][:email])
+  if @user
+    redirect "/profile/#{@user.id}"
+  else
+    @error = "I couldn't find your account with the email of #{params[:user][:email]}"
+    erb :index
+  end
 end
 
 post '/winner' do
-  @game= Game.create(winner: params[:winner])
+  @game = Game.create(winner: params[:winner])
   redirect to "/results/#{@game.id}"
 end
 
