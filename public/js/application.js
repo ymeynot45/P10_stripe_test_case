@@ -5,13 +5,15 @@ function Player(email) {
   this.email = email;
 }
 
-function Game() {
+function Game(the_pot) {
+  this.the_pot = the_pot;
   this.winner = "";
 }
 
 $(document).ready(function(){
-    var player1 = new Player($('#player1').text());
-    var player2 = new Player($('#player2').text());
+  var player1 = new Player($('#player1').text());
+  var player2 = new Player($('#player2').text());
+  var game = new Game($("#the_pot").text());
   $(document).bind('keyup', function(keystroke){
     
     var current_position_1 = $("#player1_strip > .active");
@@ -33,7 +35,7 @@ $(document).ready(function(){
     if ($('#player1_strip td:last-child').attr('class') == "active"){
       $(document).unbind('keyup');
 
-      $.post(url, {"winner": player1.email}, function(response) {
+      $.post(url, {"winner": player1.email, "the_pot": game.the_pot}, function(response) {
         var new_body = $(response).filter('#result-container');
         $(document).find('#container').html(new_body);
       });
@@ -41,7 +43,7 @@ $(document).ready(function(){
     else if ($('#player2_strip td:last-child').attr('class') == "active"){
       $(document).unbind('keyup');
 
-      $.post(url, {"winner": player2.email}, function(response) {
+      $.post(url, {"winner": player2.email, "the_pot": game.the_pot}, function(response) {
         var new_body = $(response).filter('#result-container');
         $(document).find('#container').html(new_body);
       });
