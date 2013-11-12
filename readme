@@ -1,6 +1,6 @@
 Currently broken:
-1) upon winning it doesn't update the winners income.
 2) fix js so it uses .data(obj) instead of reading the text.
+ 2.b - remove all floats when dealing with money. move every thing as cents.
 3) Fix refresh issues... it starts a new game.
 
 
