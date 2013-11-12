@@ -1,7 +1,7 @@
 Currently broken:
-2) upon winning it doesn't update the winners income.
-3) upon winning it doesn't update the database game info
-4) upon results lookup it doesn't find the game id.
+1) upon winning it doesn't update the winners income.
+2) fix js so it uses .data(obj) instead of reading the text.
+3) Fix refresh issues... it starts a new game.
 
 
 
