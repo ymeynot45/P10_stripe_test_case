@@ -1,3 +1,6 @@
+// JS.require('JS.LinkedList', function(LinkedList) { ... });
+// var LinkedList = require('jsclass/src/linked_list').LinkedList;
+
 function Player(email) {
   this.email = email;
 }
@@ -13,12 +16,16 @@ $(document).ready(function(){
     
     var current_position_1 = $("#player1_strip > .active");
     var current_position_2 = $("#player2_strip > .active");
+    // var player1holder = new Array();
+    // var player2holder = new Array();
+
 
     var url = "/winner";
 
-    if(keystroke.keyCode == 81){
-      current_position_1.removeClass('active').next().addClass('active');
-    }
+    if(keystroke.keyCode == 81){ //keystroke.keyCode == 83 || keystroke.keyCode == 87 || keystroke.keyCode == 65){
+      // player1holder.push(keystroke.keyCode)
+      // if (player1holder[player1holder.length - 1] == 65 && player1holder[player1holder.length - 2] == 83 && player1holder[player1holder.length - 3] == 87 && player1holder[player1holder.length - 4] == 81){
+      current_position_1.removeClass('active').next().addClass('active');}
     else if(keystroke.keyCode == 80){
       current_position_2.removeClass('active').next().addClass('active');
     }
@@ -40,9 +47,6 @@ $(document).ready(function(){
       });
     }
   });
-  
-
-// -----------------------------------------
 
   jQuery(function($) {
     $('#payment-form').submit(function(event) {
@@ -59,12 +63,7 @@ $(document).ready(function(){
   });
 });
 
-
-
-// // --------------------------------------
 // var subscription;
-
-// subscription.setupForm();
 
 // subscription = {
 //   setupForm: function() {
@@ -84,13 +83,10 @@ $(document).ready(function(){
 //       cvc: $('#card_code').val(),
 //       expMonth: $('#card_month').val(),
 //       expYear: $('#card_year').val()
-//       // Stripe.createToken(card, amount, subscription.handleStripeResponse) //??? unsure about this one.
+//       // Stripe.createToken(card, amount, subscription.handleStripeResponse)
 //     };
 //   }
 // });
-
-
-
 
 // ({
 //   handleStripeResponse: function(status, response) {
