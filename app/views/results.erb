@@ -4,8 +4,9 @@
   
   <h1>Results</h1>
 
-  <h2 id="winner">Winner: <%= @winner %></h2>
+  <h2 id="winner">Winner: <%= @game.winner %></h2>
   <p>Game#: <%= @game.id %></p>
+  <p>Pot earnings: $<%= (@game.the_pot/100) %></p>
   <p>Return to this results page at any time: 
   <a href="http://localhost:9393/results/<%= @game.id %>">http://localhost:9393/results/<%= @game.id %></a></p>
   <a href="/">Start a new game!</a>
