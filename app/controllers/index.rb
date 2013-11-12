@@ -41,12 +41,11 @@ get '/funds' do
   erb :stripe_form
 end
 
-get '/results/:game_id' do
+get "/results/:game_id" do
   @game = Game.find(params[:game_id])
   @results = "#{@game.winner} with a pot of $#{@game.the_pot} USD!"
   erb :results
 end
-
 
 get '/profile/:id' do
   @user = User.find_by_id(params[:id])
@@ -67,6 +66,8 @@ end
 
 post '/winner' do
   @game = Game.create(winner: params[:winner])
+  # I need to insert into the database the winner, the bet amount and update the winning player's income.
+  
   redirect to "/results/#{@game.id}"
 end
 
