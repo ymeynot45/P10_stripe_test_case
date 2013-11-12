@@ -65,9 +65,9 @@ post '/profile' do
 end
 
 post '/winner' do
-  @game = Game.create(winner: params[:winner])
+  @game = Game.create(winner: params[:winner], the_pot: (params[:the_pot].to_f * 100))
   # I need to insert into the database the winner, the bet amount and update the winning player's income.
-  
+
   redirect to "/results/#{@game.id}"
 end
 
