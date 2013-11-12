@@ -1,3 +1,10 @@
+Currently broken:
+2) upon winning it doesn't update the winners income.
+3) upon winning it doesn't update the database game info
+4) upon results lookup it doesn't find the game id.
+
+
+
 require "stripe"
 Stripe.api_key = "sk_test_HA0qHrS3xBnkAQMlJRzVTde0"
 
